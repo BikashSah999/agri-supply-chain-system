@@ -1,0 +1,21 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Smart contract for supply chain",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier": "prettier --write 'contracts/**/*.sol'"
+  },
+  "author": "Bikash Sah",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.1",
+    "hardhat": "^2.12.6",
+    "prettier": "^2.8.3",
+    "prettier-plugin-solidity": "^1.1.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3"
+  }
+}
