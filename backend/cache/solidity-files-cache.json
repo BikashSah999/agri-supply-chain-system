@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/bikashsah/Bikash/major-project/supply-chain-system/backend/contracts/Role.sol": {
-      "lastModificationDate": 1675322204553,
-      "contentHash": "828c7d8523c8f9b8329694c42b5233f7",
+      "lastModificationDate": 1675325308399,
+      "contentHash": "d6c2966e37ddbea257b9e1321774d68d",
       "sourceName": "contracts/Role.sol",
       "solcConfig": {
         "version": "0.8.17",

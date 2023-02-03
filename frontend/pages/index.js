@@ -2,26 +2,77 @@ import Head from 'next/head'
 import { useWeb3 } from '@3rdweb/hooks'
 import { Navbar } from '../components/Navbar'
 import { AddRole } from '../components/AddRole'
-// import contract from "../../backend/artifacts/contracts/Role.sol/Role.json";
+import contractRole from '../../backend/artifacts/contracts/Role.sol/Role.json'
 import { useEffect, useState } from 'react'
-// import "@nomicfoundation/hardhat-toolbox";
-// import { ethers } from "hardhat";
+import { ADMIN_ADDRESS, CONTRACT_ADDRESS } from '@/constant'
+import { Contract, ethers, providers } from 'ethers'
 import React from 'react'
-
-// const contractAddress = "0x8F042A99F4EbB24cD8405Ae02B8c073B5F375427";
-// const addRoleContract = new ethers.Contract(contractAddress, contract.abi);
+import { Farmer } from '@/components/Farmer'
+import { Manufacturer } from '@/components/Manufacturer'
+import { QualityChecker } from '@/components/QualityChecker'
+import { Error } from '@/components/Error'
 
 export default function Home() {
   const { address, connectWallet } = useWeb3()
+  const [name, setName] = useState('')
   const [role, setRole] = useState('')
-  // useEffect(() => {
-  //   if (address === process.env.GOERLI_PRIVATE_KEY) {
-  //     setRole("Admin");
-  //   } else {
-  //     const user = addRoleContract.getUser(address);
-  //     console.log(user);
-  //   }
-  // }, [address]);
+  const [hasAccess, setHasAccess] = useState(false)
+  const [contract, setContract] = useState(null)
+
+  // Get Contract
+  useEffect(() => {
+    if (!window.ethereum) return
+    const provider = new providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    let contract = new Contract(CONTRACT_ADDRESS, contractRole.abi, signer)
+    setContract(contract)
+  }, [])
+
+  // Get user from address and based on role give access to page
+  useEffect(() => {
+    if (address) {
+      if (address === ADMIN_ADDRESS) {
+        setRole('Admin')
+        setName('Admin')
+        setHasAccess(true)
+      } else {
+        contract.getUser(address).then((data) => {
+          if (data.length) {
+            setRole(data[0])
+            setName(data[1])
+            setHasAccess(data[2])
+          }
+        })
+      }
+    } else {
+      setRole('')
+      setName('')
+    }
+  }, [address])
+
+  // Add user
+  const addUser = (name, address, role) => {
+    if (ethers.utils.isAddress(address)) {
+      contract.setUser(address, role, name)
+    } else {
+      console.log('Addess not valid')
+    }
+  }
+
+  const renderComponentBasedOnRole = () => {
+    switch (role) {
+      case 'Admin':
+        return <AddRole addUser={addUser} />
+      case 'Farmer':
+        return <Farmer />
+      case 'Manufacturer':
+        return <Manufacturer />
+      case 'Quality Checker':
+        return <QualityChecker />
+      default:
+        return <div>Work on Progress</div>
+    }
+  }
 
   return (
     <>
@@ -32,10 +83,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="w-screen h-screen bg-sky-200">
-        <Navbar role={undefined} address={address} />
+        <Navbar name={name} address={address} />
         <div className="flex justify-center items-center h-5/6">
           {address ? (
-            <AddRole />
+            hasAccess ? (
+              renderComponentBasedOnRole()
+            ) : (
+              <Error />
+            )
           ) : (
             <button
               onClick={() => connectWallet('injected')}

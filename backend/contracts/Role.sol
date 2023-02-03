@@ -43,4 +43,8 @@ contract Role {
     function changeName(address _addr, string memory _name) public {
         users[_addr].name = _name;
     }
+
+    function sayHello() public pure returns (string memory) {
+        return "Bikash Sah";
+    }
 }
