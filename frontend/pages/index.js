@@ -8,6 +8,7 @@ import { ADMIN_ADDRESS, CONTRACT_ADDRESS } from '@/constant'
 import { Contract, ethers, providers } from 'ethers'
 import React from 'react'
 import { Farmer } from '@/components/Farmer'
+import { List } from '@/components/List'
 import { Manufacturer } from '@/components/Manufacturer'
 import { QualityChecker } from '@/components/QualityChecker'
 import { Error } from '@/components/Error'
@@ -59,12 +60,31 @@ export default function Home() {
     }
   }
 
+  // get all users
+  const getAllUsers = () => {
+    const users = contract.getAllUsers().then((data) => {
+      return data
+    })
+    return users
+  }
+
+  // change user access
+  const changeUserAccess = (address) => {
+    contract.changeAccess(address)
+  }
+
   const renderComponentBasedOnRole = () => {
     switch (role) {
       case 'Admin':
-        return <AddRole addUser={addUser} />
+        return (
+          <AddRole
+            addUser={addUser}
+            allUsers={getAllUsers}
+            changeUserAccess={changeUserAccess}
+          />
+        )
       case 'Farmer':
-        return <Farmer />
+        return <List />
       case 'Manufacturer':
         return <Manufacturer />
       case 'Quality Checker':

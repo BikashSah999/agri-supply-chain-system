@@ -1,9 +1,19 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { List } from "./List"
 
 export const AddRole = (props) => {
   const [name, setName] = useState('')
   const [address, setAddress] = useState('')
   const [role, setRole] = useState('')
+  const [allUsers, setAllUsers] = useState([])
+
+  useEffect(() => {
+    props.allUsers().then((data) => {
+      console.log(data)
+      setAllUsers(data)
+      console.log(allUsers)
+    })
+  }, [])
 
   const onSave = () => {
     props.addUser(name, address, role)
@@ -16,6 +26,9 @@ export const AddRole = (props) => {
   }
 
   return (
+    <div className="flex items-center gap-16">
+    <List title={"Users"} lists={allUsers} changeUserAccess={props.changeUserAccess} />
+
     <div className="p-8 rounded border border-gray-200">
       <h1 className="font-medium text-3xl">Add User</h1>
         <div className="mt-8 grid lg:grid-cols-2 gap-4">
@@ -90,6 +103,7 @@ export const AddRole = (props) => {
             Cancel
           </button>
         </div>
+    </div>
     </div>
   )
 }
