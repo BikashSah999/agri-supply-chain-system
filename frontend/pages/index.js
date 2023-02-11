@@ -3,8 +3,13 @@ import { useWeb3 } from '@3rdweb/hooks'
 import { Navbar } from '../components/Navbar'
 import { AddRole } from '../components/AddRole'
 import contractRole from '../../backend/artifacts/contracts/Role.sol/Role.json'
+import contractProduct from '../../backend/artifacts/contracts/Product.sol/Product.json'
 import { useEffect, useState } from 'react'
-import { ADMIN_ADDRESS, CONTRACT_ADDRESS } from '@/constant'
+import {
+  ADMIN_ADDRESS,
+  ROLE_CONTRACT_ADDRESS,
+  PRODUCT_CONTRACT_ADDRESS,
+} from '@/constant'
 import { Contract, ethers, providers } from 'ethers'
 import React from 'react'
 import { Farmer } from '@/components/Farmer'
@@ -19,14 +24,21 @@ export default function Home() {
   const [role, setRole] = useState('')
   const [hasAccess, setHasAccess] = useState(false)
   const [contract, setContract] = useState(null)
+  const [productContract, setProductContract] = useState(null)
 
   // Get Contract
   useEffect(() => {
     if (!window.ethereum) return
     const provider = new providers.Web3Provider(window.ethereum)
     const signer = provider.getSigner()
-    let contract = new Contract(CONTRACT_ADDRESS, contractRole.abi, signer)
+    let contract = new Contract(ROLE_CONTRACT_ADDRESS, contractRole.abi, signer)
     setContract(contract)
+    let productContract = new Contract(
+      PRODUCT_CONTRACT_ADDRESS,
+      contractProduct.abi,
+      signer,
+    )
+    setProductContract(productContract)
   }, [])
 
   // Get user from address and based on role give access to page
@@ -73,6 +85,32 @@ export default function Home() {
     contract.changeAccess(address)
   }
 
+  // harvest paddy
+  const harvestPaddy = (_upc, _latitude, _longitude, _weight, _variety) => {
+    productContract.harvestPaddy(
+      _upc,
+      address,
+      name,
+      _latitude,
+      _longitude,
+      _variety,
+      _weight,
+    )
+  }
+
+  // get all paddy
+  const getAllPaddy = () => {
+    const paddy = productContract.getAllPaddy().then((data) => {
+      return data
+    })
+    return paddy
+  }
+
+  // ship to manufacturer
+  const shipToManufacturer = (_upc, _addr) => {
+    productContract.shipToManufacturer(_upc, _addr)
+  }
+
   const renderComponentBasedOnRole = () => {
     switch (role) {
       case 'Admin':
@@ -84,7 +122,15 @@ export default function Home() {
           />
         )
       case 'Farmer':
-        return <List />
+        return (
+          <Farmer
+            harvestPaddy={harvestPaddy}
+            getAllPaddy={getAllPaddy}
+            address={address}
+            allUsers={getAllUsers}
+            shipToManufacturer={shipToManufacturer}
+          />
+        )
       case 'Manufacturer':
         return <Manufacturer />
       case 'Quality Checker':

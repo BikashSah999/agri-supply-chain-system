@@ -1,8 +1,3 @@
 export const QualityChecker = () => {
-    return (
-        <>
-            I am Quality Checker
-        </>
-    )
-  }
-  
+  return <>I am Quality Checker</>
+}

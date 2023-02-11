@@ -5,10 +5,15 @@ async function main() {
 
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
-  const Role = await ethers.getContractFactory("Role");
-  const role = await Role.deploy();
+  // const Role = await ethers.getContractFactory("Role");
+  // const role = await Role.deploy();
 
-  console.log("Role deployed address:", role.address);
+  // console.log("Role deployed address:", role.address);
+
+  const Product = await ethers.getContractFactory("Product");
+  const product = await Product.deploy();
+
+  console.log("Product deployed address:", product.address);
 }
 
 main()

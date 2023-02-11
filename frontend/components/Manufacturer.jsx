@@ -1,8 +1,3 @@
 export const Manufacturer = () => {
-    return (
-        <>
-            I am manufacturer
-        </>
-    )
-  }
-  
+  return <>I am manufacturer</>
+}

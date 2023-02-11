@@ -1,8 +1,3 @@
 export const Error = () => {
-    return (
-        <>
-            User not found
-        </>
-    )
-  }
-  
+  return <>User not found</>
+}

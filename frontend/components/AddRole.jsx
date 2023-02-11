@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import { List } from "./List"
+import { useEffect, useState } from 'react'
+import { List } from './List'
 
 export const AddRole = (props) => {
   const [name, setName] = useState('')
@@ -9,9 +9,7 @@ export const AddRole = (props) => {
 
   useEffect(() => {
     props.allUsers().then((data) => {
-      console.log(data)
       setAllUsers(data)
-      console.log(allUsers)
     })
   }, [])
 
@@ -20,17 +18,21 @@ export const AddRole = (props) => {
   }
 
   const onCancel = () => {
-    setName('');
-    setAddress('');
-    setRole('');
+    setName('')
+    setAddress('')
+    setRole('')
   }
 
   return (
     <div className="flex items-center gap-16">
-    <List title={"Users"} lists={allUsers} changeUserAccess={props.changeUserAccess} />
+      <List
+        title={'Users'}
+        lists={allUsers}
+        changeUserAccess={props.changeUserAccess}
+      />
 
-    <div className="p-8 rounded border border-gray-200">
-      <h1 className="font-medium text-3xl">Add User</h1>
+      <div className="p-8 rounded border border-gray-200">
+        <h1 className="font-medium text-3xl">Add User</h1>
         <div className="mt-8 grid lg:grid-cols-2 gap-4">
           <div>
             <label
@@ -46,7 +48,7 @@ export const AddRole = (props) => {
               className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
               placeholder="Enter your name"
               value={name}
-              onChange={((event) => setName(event.target.value))}
+              onChange={(event) => setName(event.target.value)}
             />
           </div>
 
@@ -64,7 +66,7 @@ export const AddRole = (props) => {
               className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
               value={address}
               placeholder="0x4417089422EB07e5548670E3de4Cd7A4df2f728C"
-              onChange={((event) => setAddress(event.target.value))}
+              onChange={(event) => setAddress(event.target.value)}
             />
           </div>
 
@@ -80,7 +82,9 @@ export const AddRole = (props) => {
               className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
               onChange={(event) => setRole(event.target.value)}
             >
-              <option value="" disabled selected hidden>Select Role</option>
+              <option value="" disabled selected hidden>
+                Select Role
+              </option>
               <option value="Admin">Admin</option>
               <option value="Farmer">Farmer</option>
               <option value="Manufacturer">Manufacturer</option>
@@ -99,11 +103,14 @@ export const AddRole = (props) => {
           >
             Save
           </button>
-          <button className="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50" onClick={onCancel}>
+          <button
+            className="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"
+            onClick={onCancel}
+          >
             Cancel
           </button>
         </div>
-    </div>
+      </div>
     </div>
   )
 }
