@@ -296,29 +296,28 @@ export const PaddyListsForManufacturer = (props) => {
                         </button>
                       </div>
                     </div>
-                    {showQr &&
-                         (
-                        <>
-                          <div className="qrcode">
-                            <QRCode
-                              size={128}
-                              style={{
-                                height: '100px',
-                                maxWidth: '100%',
-                                width: '100%',
-                              }}
-                              value={productId}
-                              viewBox={`0 0 128 128`}
-                            />
-                          </div>
-                          <button
-                            onClick={() => downloadQRCode()}
-                            className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50"
-                          >
-                            Download QR
-                          </button>
-                        </>
-                      )}
+                    {showQr && (
+                      <>
+                        <div className="qrcode">
+                          <QRCode
+                            size={128}
+                            style={{
+                              height: '100px',
+                              maxWidth: '100%',
+                              width: '100%',
+                            }}
+                            value={productId}
+                            viewBox={`0 0 128 128`}
+                          />
+                        </div>
+                        <button
+                          onClick={() => downloadQRCode()}
+                          className="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50"
+                        >
+                          Download QR
+                        </button>
+                      </>
+                    )}
                   </Modal>
                 </div>
               </li>
