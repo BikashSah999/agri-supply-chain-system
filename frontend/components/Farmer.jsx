@@ -6,7 +6,7 @@ export const Farmer = (props) => {
   const [latitude, setLatitude] = useState('')
   const [longitude, setLongitude] = useState('')
   const [variety, setVariety] = useState('')
-  const [weight, setWeight] = useState('')
+  const [weight, setWeight] = useState(0)
   const [allPaddy, setAllPaddy] = useState([])
   const [paddyOwned, setPaddyOwned] = useState([])
   const [allUsers, setAllUsers] = useState([])
@@ -132,7 +132,7 @@ export const Farmer = (props) => {
               Weight
             </label>
             <input
-              type="text"
+              type="number"
               name="weight"
               id="weight"
               className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"

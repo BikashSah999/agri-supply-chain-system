@@ -106,9 +106,32 @@ export default function Home() {
     return paddy
   }
 
-  // ship to manufacturer
+  // ship paddy to manufacturer
   const shipToManufacturer = (_upc, _addr) => {
     productContract.shipToManufacturer(_upc, _addr)
+  }
+
+  // receive paddy by manufacturer
+  const receiveByManufacturer = (_upc, _addr) => {
+    productContract.receivedByManufacturer(_addr, _upc)
+  }
+
+  // process paddy by manufacturer
+  const processByManufacturer = (_upc, _addr) => {
+    productContract.processPaddy(_upc)
+  }
+
+  // pack rice
+  const packRice = (_upc, _weight, _name, _productId, _price, _addr) => {
+    productContract.packRice(_upc, _weight, _name, _productId, _price, _addr)
+  }
+
+  // get all rice product
+  const getAllRiceProduct = () => {
+    const rice = productContract.getAllRice().then((data) => {
+      return data
+    })
+    return rice
   }
 
   const renderComponentBasedOnRole = () => {
@@ -132,7 +155,17 @@ export default function Home() {
           />
         )
       case 'Manufacturer':
-        return <Manufacturer />
+        return (
+          <Manufacturer
+            getAllPaddy={getAllPaddy}
+            allUsers={getAllUsers}
+            address={address}
+            receiveByManufacturer={receiveByManufacturer}
+            processByManufacturer={processByManufacturer}
+            packRice={packRice}
+            getAllRiceProduct={getAllRiceProduct}
+          />
+        )
       case 'Quality Checker':
         return <QualityChecker />
       default:

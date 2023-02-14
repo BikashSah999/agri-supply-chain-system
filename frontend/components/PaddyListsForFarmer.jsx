@@ -1,3 +1,5 @@
+import { ethers } from 'ethers'
+
 export const PaddyListsForFarmer = (props) => {
   return (
     <div className="flow-root">
@@ -13,7 +15,9 @@ export const PaddyListsForFarmer = (props) => {
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">UPC: {list[0]}</p>
                   <p className="text-sm truncate">Type: {list[7]}</p>
-                  <p className="text-sm truncate">Weight: {list[8]}</p>
+                  <p className="text-sm truncate">
+                    Weight: {list[8].toNumber()}
+                  </p>
                   <p className="text-sm truncate">State: {list[9]}</p>
                 </div>
 

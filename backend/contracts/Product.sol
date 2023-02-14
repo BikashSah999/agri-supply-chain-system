@@ -11,7 +11,7 @@ contract Product {
         string originFarmLatitude; // Farm Latitude
         string originFarmLongitude; // Farm Longitude
         string variety;
-        string harvestedWeight;
+        uint harvestedWeight;
         string state;
     }
 
@@ -31,11 +31,13 @@ contract Product {
 
     struct Rice {
         Paddy farmDetails;
-        uint productID; // Product ID potentially a combination of upc + sku
+        string productID; // Product ID potentially a combination of upc + sku
+        string productName; // Product ID potentially a combination of upc + sku
         uint productPrice; // Product Price
         uint productWeight; // Product Price
         bool qualityApproved;
         RicePacketState itemState; // Product State as represented in the enum above
+        address ownerID;
         address manufacturerID; // Metamask-Ethereum address of the Distributor
         address qualityCheckerID; // Metamask-Ethereum address of the Distributor
         address distributorID; // Metamask-Ethereum address of the Distributor
@@ -43,9 +45,9 @@ contract Product {
         address consumerID; // Metamask-Ethereum address of the Consumer
     }
 
-    mapping(uint => Rice) riceDetails;
+    mapping(string => Rice) riceDetails;
 
-    uint[] riceIds;
+    string[] riceIds;
 
     function harvestPaddy(
         string memory _upc,
@@ -54,7 +56,7 @@ contract Product {
         string memory _farmLatitude,
         string memory _farmLongitude,
         string memory _variety,
-        string memory _harvestedWeight
+        uint _harvestedWeight
     ) public {
         Paddy storage paddy = paddyDetails[_upc];
         paddy.upc = _upc;
@@ -94,29 +96,45 @@ contract Product {
     function packRice(
         string memory _upc,
         uint _weight,
-        uint _productId,
+        string memory _productName,
+        string memory _productId,
         uint _productPrice,
         address _addr
     ) public {
-        // require(paddyDetails[_upc].remainingWeight > _weight, "Cann't pack");
         Rice storage rice = riceDetails[_productId];
         rice.farmDetails = paddyDetails[_upc];
         rice.productID = _productId;
+        rice.productName = _productName;
         rice.productPrice = _productPrice;
         rice.productWeight = _weight;
         rice.qualityApproved = false;
         rice.itemState = RicePacketState.Packed;
         rice.manufacturerID = _addr;
+        rice.ownerID = _addr;
 
-        // paddyDetails[_upc].harvestedWeight =
-        //     paddyDetails[_upc].harvestedWeight -
-        //     _weight;
+        paddyDetails[_upc].harvestedWeight =
+            paddyDetails[_upc].harvestedWeight -
+            _weight;
         riceIds.push(_productId);
+    }
+
+    function getAllRice() public view returns (Rice[] memory) {
+        Rice[] memory riceArray = new Rice[](riceIds.length);
+        for (uint i = 0; i < riceIds.length; i++) {
+            riceArray[i] = riceDetails[riceIds[i]];
+        }
+        return riceArray;
+    }
+
+    function getRiceDetail(
+        string memory _productId
+    ) public view returns (Rice memory) {
+        return riceDetails[_productId];
     }
 
     function checkQualityRice(
         address _addr,
-        uint _productId,
+        string memory _productId,
         bool approved
     ) public {
         riceDetails[_productId].qualityApproved = approved;
