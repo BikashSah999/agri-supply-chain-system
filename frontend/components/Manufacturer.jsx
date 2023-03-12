@@ -7,6 +7,7 @@ export const Manufacturer = (props) => {
   const [paddyOwned, setPaddyOwned] = useState([])
   const [allUsers, setAllUsers] = useState([])
   const [showPaddy, setShowPaddy] = useState(true)
+  const [distributors, setDistributors] = useState([])
 
   useEffect(() => {
     props.getAllPaddy().then((data) => {
@@ -18,8 +19,37 @@ export const Manufacturer = (props) => {
   }, [])
 
   useEffect(() => {
+    setDistributors(allUsers.filter((user) => user[1] === 'Wholeseller'))
+  }, [allUsers])
+
+  useEffect(() => {
     setPaddyOwned(allPaddy.filter((paddy) => paddy[3] === props.address))
   }, [allPaddy])
+
+  useEffect(() => {
+    props.getAllPaddy().then((data) => {
+      setAllPaddy(data)
+    })
+  }, receiveByManufacturer, processByManufacturer, packRice)
+
+  const receiveByManufacturer = (_upc, _address) => {
+    props.receiveByManufacturer(_upc, _address)
+  }
+
+  const processByManufacturer = (_upc) => {
+    props.processByManufacturer(_upc)
+  }
+
+  const packRice = (_upc, productWeight, productName, productId, productPrice, address) => {
+    props.packRice(
+      _upc,
+      productWeight,
+      productName,
+      productId,
+      productPrice,
+      address,
+    )
+  }
 
   return (
     <div className="flex flex-col py-2 px-2">
@@ -45,14 +75,17 @@ export const Manufacturer = (props) => {
       {showPaddy ? (
         <PaddyListsForManufacturer
           allPaddyOwned={paddyOwned}
-          receiveByManufacturer={props.receiveByManufacturer}
+          receiveByManufacturer={receiveByManufacturer}
           address={props.address}
-          processByManufacturer={props.processByManufacturer}
-          packRice={props.packRice}
+          processByManufacturer={processByManufacturer}
+          packRice={packRice}
+          name={props.name}
         />
       ) : (
         <RiceProductLists
           getAllRiceProduct={props.getAllRiceProduct}
+          distributors={distributors}
+          shipToDistributor={props.shipToDistributor}
           address={props.address}
         />
       )}

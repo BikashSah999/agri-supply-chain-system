@@ -22,6 +22,10 @@ export const Farmer = (props) => {
   }, [])
 
   useEffect(() => {
+    setUpc(props.name.substring(0, props.name.indexOf(' ')) + '-' + variety + '-' + Math.floor(Math.random()*(999-100+1)+100))
+  }, [variety])
+
+  useEffect(() => {
     setManufacturers(allUsers.filter((user) => user[1] === 'Manufacturer'))
   }, [allUsers])
 
@@ -29,8 +33,23 @@ export const Farmer = (props) => {
     setPaddyOwned(allPaddy.filter((paddy) => paddy[1] === props.address))
   }, [allPaddy])
 
+  useEffect(() => {
+    props.getAllPaddy().then((data) => {
+      setAllPaddy(data)
+    })
+  }, [onSave, allPaddy, shipToManufacturer])
+
   const onSave = () => {
     props.harvestPaddy(upc, latitude, longitude, weight, variety)
+    setUpc('')
+    setLatitude('')
+    setLongitude('')
+    setVariety('')
+    setWeight('')
+  }
+
+  const shipToManufacturer = (_upc, _manufacturerId) => {
+    props.shipToManufacturer(_upc, _manufacturerId)
   }
 
   const onCancel = () => {
@@ -47,7 +66,7 @@ export const Farmer = (props) => {
         title={'Paddy Owned'}
         lists={paddyOwned}
         manufacturers={manufacturers}
-        shipToManufacturer={props.shipToManufacturer}
+        shipToManufacturer={shipToManufacturer}
       />
       <div className="p-8 rounded border border-gray-200">
         <h1 className="font-medium text-3xl">Add Product</h1>
@@ -67,6 +86,7 @@ export const Farmer = (props) => {
               placeholder="Enter UPC"
               value={upc}
               onChange={(event) => setUpc(event.target.value)}
+              disabled={true}
             />
           </div>
 

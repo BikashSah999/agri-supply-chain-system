@@ -13,8 +13,17 @@ export const AddRole = (props) => {
     })
   }, [])
 
+  useEffect(() => {
+    props.allUsers().then((data) => {
+      setAllUsers(data)
+    })
+  }, [onSave, allUsers])
+
   const onSave = () => {
     props.addUser(name, address, role)
+    setName('')
+    setAddress('')
+    setRole('')
   }
 
   const onCancel = () => {
@@ -88,7 +97,7 @@ export const AddRole = (props) => {
               <option value="Admin">Admin</option>
               <option value="Farmer">Farmer</option>
               <option value="Manufacturer">Manufacturer</option>
-              <option value="Quality Checker">Quality Checker</option>
+              {/* <option value="Quality Checker">Quality Checker</option> */}
               <option value="Wholeseller">Wholeseller</option>
               <option value="Retailer">Retailer</option>
             </select>

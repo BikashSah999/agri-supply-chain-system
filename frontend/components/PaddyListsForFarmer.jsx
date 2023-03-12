@@ -59,7 +59,7 @@ export const PaddyListsForFarmer = (props) => {
                       disabled={true}
                       class="bg-green-400 text-black rounded font-semibold py-2 px-4 rounded inline-flex items-center"
                     >
-                      <span class="mr-1">Already Shipped to Manufacturer</span>
+                      <span class="mr-1">Shipped to Manufacturer</span>
                     </button>
                   </div>
                 )}

@@ -17,13 +17,13 @@ const customStyles = {
 
 export const PaddyListsForManufacturer = (props) => {
   const paddyToReceive = props.allPaddyOwned.filter(
-    (paddy) => paddy[9] === 'ShippedToManufacturer',
+    (paddy) => paddy[9] === 'ShippedToManufacturer' && paddy[3] === props.address,
   )
   const paddyToProcess = props.allPaddyOwned.filter(
-    (paddy) => paddy[9] === 'ReceivedByManufacturer',
+    (paddy) => paddy[9] === 'ReceivedByManufacturer' && paddy[3] === props.address,
   )
   const paddyToPack = props.allPaddyOwned.filter(
-    (paddy) => paddy[9] === 'Processed',
+    (paddy) => paddy[9] === 'Processed' && paddy[3] === props.address,
   )
 
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -33,13 +33,15 @@ export const PaddyListsForManufacturer = (props) => {
   const [productName, setProductName] = useState('')
   const [showQr, setShowQr] = useState(false)
 
-  const openModal = () => {
+  const openModal = (_productId) => {
     setShowQr(false)
     setIsOpen(true)
+    setProductId(_productId + '-' + props.name.substring(0, props.name.indexOf(' ')))
   }
 
   const closeModal = () => {
     setIsOpen(false)
+    setProductId('')
   }
 
   const onSave = (_upc) => {
@@ -168,7 +170,7 @@ export const PaddyListsForManufacturer = (props) => {
 
                   <div class="group inline-block relative">
                     <button
-                      onClick={openModal}
+                      onClick={() => openModal(list[0])}
                       class="bg-blue-500 text-white rounded font-semibold py-2 px-4 rounded inline-flex items-center"
                     >
                       <span class="mr-1">Pack</span>
@@ -198,6 +200,7 @@ export const PaddyListsForManufacturer = (props) => {
                             className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
                             placeholder="Enter Product Code"
                             value={productId}
+                            disabled={true}
                             onChange={(event) =>
                               setProductId(event.target.value)
                             }

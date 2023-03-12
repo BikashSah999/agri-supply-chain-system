@@ -57,7 +57,7 @@ export default function Customer() {
         )}
         {!showQr && riceDetail && (
           <>
-            <div className="flex justify-center">
+            <div className="flex justify-center mt-4">
               <div className="block rounded-lg shadow-lg bg-white text-center">
                 <div className="py-3 px-6 border-b border-gray-300">
                   {riceDetail[1]}

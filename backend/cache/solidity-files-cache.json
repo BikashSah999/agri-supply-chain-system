@@ -37,8 +37,8 @@
       ]
     },
     "/Users/bikashsah/Bikash/major-project/supply-chain-system/backend/contracts/Product.sol": {
-      "lastModificationDate": 1676148843976,
-      "contentHash": "4e6a14eec6ab1ce6db9af8f482ec1ccd",
+      "lastModificationDate": 1678564948621,
+      "contentHash": "7ee8e9bd4e4468c1e839ec581f8e0acc",
       "sourceName": "contracts/Product.sol",
       "solcConfig": {
         "version": "0.8.17",

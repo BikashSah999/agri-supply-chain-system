@@ -17,6 +17,8 @@ import { List } from '@/components/List'
 import { Manufacturer } from '@/components/Manufacturer'
 import { QualityChecker } from '@/components/QualityChecker'
 import { Error } from '@/components/Error'
+import { Distributor } from '@/components/Distributor'
+import { Retailer } from '@/components/Retailer'
 
 export default function Home() {
   const { address, connectWallet } = useWeb3()
@@ -28,8 +30,20 @@ export default function Home() {
 
   // Get Contract
   useEffect(() => {
-    if (!window.ethereum) return
-    const provider = new providers.Web3Provider(window.ethereum)
+    // if (!window.ethereum) return
+    // const provider = new providers.Web3Provider(window.ethereum)
+    // const signer = provider.getSigner()
+    // let contract = new Contract(ROLE_CONTRACT_ADDRESS, contractRole.abi, signer)
+    // setContract(contract)
+    // let productContract = new Contract(
+    //   PRODUCT_CONTRACT_ADDRESS,
+    //   contractProduct.abi,
+    //   signer,
+    // )
+    // setProductContract(productContract)
+
+    // if (!window.ethereum) return
+    const provider = new providers.JsonRpcProvider('http://127.0.0.1:7545')
     const signer = provider.getSigner()
     let contract = new Contract(ROLE_CONTRACT_ADDRESS, contractRole.abi, signer)
     setContract(contract)
@@ -134,6 +148,36 @@ export default function Home() {
     return rice
   }
 
+  // quality verify
+  const checkQualityRice = (_addr, _productId, _approved) => {
+    productContract.checkQualityRice(_addr, _productId, _approved)
+  }
+
+  // ship rice to distributor
+  const shipToDistributor = (_productId, _addr) => {
+    productContract.shipToDistributor(_productId, _addr)
+  }
+
+  // receive paddy by distributor
+  const receiveByDistributor = (_upc, _addr) => {
+    productContract.receivedByDistributor(_upc, _addr)
+  }
+
+  // ship rice to retailer
+  const shipToRetailer = (_productId, _addr) => {
+    productContract.shipToRetailer(_productId, _addr)
+  }
+
+  // receive paddy by distributor
+  const receivedByRetailer = (_upc, _addr) => {
+    productContract.receivedByRetailer(_upc, _addr)
+  }
+
+  // sell rice to customer
+  const sellToCustomer = (_upc, _addr) => {
+    productContract.sellToCustomer(_upc, _addr)
+  }
+
   const renderComponentBasedOnRole = () => {
     switch (role) {
       case 'Admin':
@@ -152,6 +196,7 @@ export default function Home() {
             address={address}
             allUsers={getAllUsers}
             shipToManufacturer={shipToManufacturer}
+            name={name}
           />
         )
       case 'Manufacturer':
@@ -164,10 +209,38 @@ export default function Home() {
             processByManufacturer={processByManufacturer}
             packRice={packRice}
             getAllRiceProduct={getAllRiceProduct}
+            shipToDistributor={shipToDistributor}
+            name={name}
           />
         )
       case 'Quality Checker':
-        return <QualityChecker />
+        return (
+          <QualityChecker
+            getAllRiceProduct={getAllRiceProduct}
+            checkQualityRice={checkQualityRice}
+            address={address}
+          />
+        )
+      case 'Wholeseller':
+        return (
+          <Distributor
+            getAllRiceProduct={getAllRiceProduct}
+            address={address}
+            receiveByDistributor={receiveByDistributor}
+            allUsers={getAllUsers}
+            shipToRetailer={shipToRetailer}
+          />
+        )
+      case 'Retailer':
+        return (
+          <Retailer
+            getAllRiceProduct={getAllRiceProduct}
+            address={address}
+            receivedByRetailer={receivedByRetailer}
+            allUsers={getAllUsers}
+            sellToCustomer={sellToCustomer}
+          />
+        )
       default:
         return <div>Work on Progress</div>
     }

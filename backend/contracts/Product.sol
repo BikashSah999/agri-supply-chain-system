@@ -139,5 +139,40 @@ contract Product {
     ) public {
         riceDetails[_productId].qualityApproved = approved;
         riceDetails[_productId].qualityCheckerID = _addr;
+        riceDetails[_productId].itemState = RicePacketState.QualityChecked;
+    }
+
+    function shipToDistributor(string memory _productId, address _addr) public {
+        riceDetails[_productId].itemState = RicePacketState
+            .ShippedToDistributor;
+        riceDetails[_productId].distributorID = _addr;
+    }
+
+    function receivedByDistributor(
+        string memory _productId,
+        address _addr
+    ) public {
+        riceDetails[_productId].itemState = RicePacketState
+            .ReceivedByDistributor;
+        riceDetails[_productId].ownerID = _addr;
+    }
+
+    function shipToRetailer(string memory _productId, address _addr) public {
+        riceDetails[_productId].itemState = RicePacketState.ShippedToRetailer;
+        riceDetails[_productId].retailerID = _addr;
+    }
+
+    function receivedByRetailer(
+        string memory _productId,
+        address _addr
+    ) public {
+        riceDetails[_productId].itemState = RicePacketState.ReceivedByRetailer;
+        riceDetails[_productId].ownerID = _addr;
+    }
+
+    function sellToCustomer(string memory _productId, address _addr) public {
+        riceDetails[_productId].itemState = RicePacketState.Sold;
+        riceDetails[_productId].consumerID = _addr;
+        riceDetails[_productId].ownerID = _addr;
     }
 }
