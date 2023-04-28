@@ -30,8 +30,8 @@ export const Manufacturer = (props) => {
     props.getAllPaddy().then((data) => {
       setAllPaddy(data)
     })
-  }, receiveByManufacturer, processByManufacturer, packRice)
-
+  }, [receiveByManufacturer, processByManufacturer, packRice])
+  
   const receiveByManufacturer = (_upc, _address) => {
     props.receiveByManufacturer(_upc, _address)
   }

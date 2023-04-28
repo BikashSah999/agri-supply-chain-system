@@ -95,14 +95,14 @@ export const Farmer = (props) => {
               htmlFor="latitude"
               className="text-sm text-gray-700 block mb-1 font-medium"
             >
-              Farm Latitude
+              Farm Location
             </label>
             <input
               type="text"
               name="latitude"
               id="latitude"
               className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
-              placeholder="Enter Farm Latitude"
+              placeholder="Enter Farm Location"
               value={latitude}
               onChange={(event) => setLatitude(event.target.value)}
             />
@@ -113,14 +113,14 @@ export const Farmer = (props) => {
               htmlFor="longitude"
               className="text-sm text-gray-700 block mb-1 font-medium"
             >
-              Farm Longitude
+              Farm Country
             </label>
             <input
               type="text"
               name="longitude"
               id="longitude"
               className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
-              placeholder="Enter Farm Longitude"
+              placeholder="Enter Farm Country"
               value={longitude}
               onChange={(event) => setLongitude(event.target.value)}
             />
@@ -169,7 +169,7 @@ export const Farmer = (props) => {
             disabled={!upc || !latitude || !longitude || !variety || !weight}
             onClick={onSave}
           >
-            Harvest
+            Add
           </button>
           <button
             className="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50"

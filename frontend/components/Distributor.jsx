@@ -27,7 +27,7 @@ export const Distributor = (props) => {
 
   useEffect(() => {
     setAllRiceToReceive(allRiceProducts.filter(
-      (rice) => rice[6] === 2 && rice[11] === props.address,
+      (rice) => rice[6] === 2 && rice[10] === props.address,
     ))
     setAllRiceProductsOwned(
       allRiceProducts.filter((rice) => rice[7] === props.address),
@@ -48,7 +48,7 @@ export const Distributor = (props) => {
         <div className="text-center font-bold text-lg mt-4">
           {props.title || 'Rice to Receive'}
         </div>
-        <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="flex flex-col divide-y divide-gray-200 dark:divide-gray-700">
           {riceToReceive &&
             riceToReceive.map((list) => (
               <div className="py-3 sm:py-4">
@@ -78,7 +78,7 @@ export const Distributor = (props) => {
         <div className="text-center font-bold text-lg mt-4">
           {props.title || 'Rice to Ship'}
         </div>
-        <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        <div className="flex flex-col divide-y divide-gray-200 dark:divide-gray-700">
           {allRiceProductsOwned &&
             allRiceProductsOwned.map((list) => (
               <div className="py-3 sm:py-4">

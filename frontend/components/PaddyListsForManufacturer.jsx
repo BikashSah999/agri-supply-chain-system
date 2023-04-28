@@ -36,7 +36,7 @@ export const PaddyListsForManufacturer = (props) => {
   const openModal = (_productId) => {
     setShowQr(false)
     setIsOpen(true)
-    setProductId(_productId + '-' + props.name.substring(0, props.name.indexOf(' ')))
+    setProductId(_productId + '-' + props.name.substring(0, props.name.indexOf(' ')) + '-' +  Math.floor(Math.random()*(999-100+1)+100))
   }
 
   const closeModal = () => {

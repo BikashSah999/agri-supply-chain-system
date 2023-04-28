@@ -7,13 +7,18 @@ export const RiceProductLists = (props) => {
     props.getAllRiceProduct().then((data) => {
       setAllRiceProducts(data)
     })
+  }, [])
+
+  useEffect(() => {
+    props.getAllRiceProduct().then((data) => {
+      setAllRiceProducts(data)
+    })
   }, [shipToDistributor])
 
   useEffect(() => {
     setAllRiceProductsOwned(
       allRiceProducts.filter((rice) => rice[7] === props.address),
     )
-    console.log(allRiceProductsOwned)
   }, [allRiceProducts])
 
   const shipToDistributor = (_productId, distributorAddress) => {

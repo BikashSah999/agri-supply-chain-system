@@ -64,16 +64,13 @@ export default function Customer() {
                 </div>
                 <div className="p-6">
                   <p className="text-gray-700 text-base mb-4">
-                    Name: {riceDetail[2]}
+                    Product Name: {riceDetail[2]}
                   </p>
                   <p className="text-gray-700 text-base mb-4">
                     Price: {riceDetail[3].toNumber()}
                   </p>
                   <p className="text-gray-700 text-base mb-4">
                     Weight: {riceDetail[4].toNumber()}
-                  </p>
-                  <p className="text-gray-700 text-base mb-4">
-                    Quality Approved: {riceDetail[5] ? 'True' : 'False'}
                   </p>
                   <p className="text-gray-700 text-base mb-4">
                     Owner Id: {riceDetail[7]}
@@ -85,11 +82,9 @@ export default function Customer() {
                     Farm Name: {riceDetail[0][4]}
                   </p>
                   <p className="text-gray-700 text-base mb-4">
-                    Farm Latitude: {riceDetail[0][5]}
+                    Farm Location: {riceDetail[0][5]}, {riceDetail[0][6]}
                   </p>
-                  <p className="text-gray-700 text-base mb-4">
-                    Farm Longitude: {riceDetail[0][6]}
-                  </p>
+                  <p className="text-gray-700 text-base mb-4"></p>
                   <p className="text-gray-700 text-base mb-4">
                     Paddy Variety: {riceDetail[0][7]}
                   </p>
